@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">swapiApp</string>
+    <string name="title_activity_planets">Planets</string>
+    <string name="title_activity_spaceships">Spaceships</string>
+    <string name="title_activity_vehicles">Vehicles</string>
+    <string name="title_activity_people">People</string>
+    <string name="title_activity_films">Films</string>
+    <string name="title_activity_species">Species</string>
+</resources>
