@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.papalouis.swapiapp.Asynk.MyAsyncTask;
+
 public class MainActivity extends AppCompatActivity {
     static final String myUrl = "https://swapi.co/api/";
     ProgressBar progress;
