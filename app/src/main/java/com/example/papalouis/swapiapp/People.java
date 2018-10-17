@@ -14,14 +14,15 @@ import java.util.ArrayList;
 import static com.example.papalouis.swapiapp.MainActivity.myUrl;
 
 public class People extends AppCompatActivity {
-    private String host = myUrl + "people/?page=1";
-    private ArrayList<String> ListResult = new ArrayList<String>();
-    private ListView ListResultView;
-    private ProgressBar progress;
-    private TextView retour;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        String host = myUrl + "people/?page=1";
+        ArrayList<String> ListResult = new ArrayList<String>();
+        ListView ListResultView;
+        ProgressBar progress;
+        TextView retour;
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_people);
 
@@ -29,7 +30,7 @@ public class People extends AppCompatActivity {
         progress = findViewById(R.id.progress);
         ListResultView = findViewById(R.id.peopleView);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(People.this,
-                android.R.layout.simple_list_item_1, ListResult);
+                android.R.layout.activity_list_item, ListResult);
 
         PeopleAsyncTask task = new PeopleAsyncTask(progress);
         task.execute(host, retour, adapter, ListResultView);

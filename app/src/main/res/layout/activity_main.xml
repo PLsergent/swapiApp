@@ -8,8 +8,8 @@
 
     <TextView
         android:id="@+id/retour"
-        android:layout_width="103dp"
-        android:layout_height="24dp"
+        android:layout_width="97dp"
+        android:layout_height="26dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintLeft_toLeftOf="parent"

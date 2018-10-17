@@ -65,7 +65,6 @@ public class PeopleAsyncTask extends AsyncTask<Object, Void, ArrayList> {
                     Log.d("name", name);
                     ListResult.add(name);
                 }
-
                 input.close();
             }
             urlConnection.disconnect();
