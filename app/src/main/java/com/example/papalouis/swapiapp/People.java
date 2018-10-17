@@ -7,7 +7,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.papalouis.swapiapp.Asynk.PeopleAsyncTask;
+import com.example.papalouis.swapiapp.Asynk.NameAsyncTask;
 
 import java.util.ArrayList;
 
@@ -17,7 +17,7 @@ public class People extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        String host = myUrl + "people/?page=1";
+        String host = myUrl + "people/?page=";
         ArrayList<String> ListResult = new ArrayList<String>();
         ListView ListResultView;
         ProgressBar progress;
@@ -29,11 +29,13 @@ public class People extends AppCompatActivity {
         retour = findViewById(R.id.retour);
         progress = findViewById(R.id.progress);
         ListResultView = findViewById(R.id.peopleView);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(People.this,
-                android.R.layout.activity_list_item, ListResult);
 
-        PeopleAsyncTask task = new PeopleAsyncTask(progress);
-        task.execute(host, retour, adapter, ListResultView);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(People.this,
+                android.R.layout.simple_list_item_1, android.R.id.text1, ListResult);
+        ListResultView.setAdapter(adapter);
+
+        NameAsyncTask task = new NameAsyncTask(progress);
+        task.execute(host, retour, adapter, ListResult);
     }
 
 }
