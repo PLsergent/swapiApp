@@ -32,7 +32,6 @@ public class ListTheme extends AppCompatActivity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-                Context context = getApplicationContext();
                 String target = themes[position];
                 if (target == "Planets"){
                     Intent myIntent = new Intent(ListTheme.this, Planets.class);

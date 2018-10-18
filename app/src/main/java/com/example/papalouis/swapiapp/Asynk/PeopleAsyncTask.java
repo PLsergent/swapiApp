@@ -8,6 +8,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 
+import com.example.papalouis.swapiapp.People;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -17,14 +19,14 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class NameAsyncTask extends AsyncTask<Object, Void, ArrayList> {
+public class PeopleAsyncTask extends AsyncTask<Object, Void, ArrayList> {
     private TextView retour;
     private ProgressBar progress;
     private String host;
-    public ArrayList ListResult;
     public ArrayAdapter adapter;
+    public ArrayList<String> ListResult;
 
-    public NameAsyncTask(ProgressBar prog){
+    public PeopleAsyncTask(ProgressBar prog){
         progress = prog;
     }
 
@@ -35,7 +37,8 @@ public class NameAsyncTask extends AsyncTask<Object, Void, ArrayList> {
     @Override
     protected ArrayList<String> doInBackground(Object... params) {
         BufferedReader input;
-        ListResult = (ArrayList) params[3];
+        ArrayList<People> ListPeople = new ArrayList<>();
+        ListResult = (ArrayList<String>) params[3];
         adapter = (ArrayAdapter) params[2];
         retour = (TextView) params[1];
         host = (String) params[0] + "1";
@@ -45,6 +48,8 @@ public class NameAsyncTask extends AsyncTask<Object, Void, ArrayList> {
         String name;
         String count = null;
         String field = "name";
+        String height, mass, gender, birth_year;
+
         int j;
         try {
             URL url = new URL(host);
@@ -59,39 +64,46 @@ public class NameAsyncTask extends AsyncTask<Object, Void, ArrayList> {
                 jArray = jsonObject.getJSONArray("results");
                 item = jArray.getJSONObject(0);
                 try {item.getString("name");}catch(Exception e){field = "title";}finally {
-                input.close();
-                urlConnection.disconnect();
-            }
-            j = 1;
-            count = "whatever";
-            while (count != "null") {
-                String js = "" + j;
-                host = (String) params[0] + js;
-                url = new URL(host);
-                urlConnection = (HttpURLConnection) url.openConnection();
-                if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                    Log.d("Connection réussi", "true");
-                    input = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-                    builder = new StringBuilder();
-                    builder.append(input.readLine());
-
-                    jsonObject = new JSONObject(builder.toString());
-                    jArray = jsonObject.getJSONArray("results");
-                    for (int i = 0; i < jArray.length(); i++) {
-                        item = jArray.getJSONObject(i);
-                        name = item.getString(field);
-                        Log.d("name", name);
-                        ListResult.add(name);
-                    }
-                    count = jsonObject.getString("next");
                     input.close();
                     urlConnection.disconnect();
                 }
-                j++;
-            }
+                j = 1;
+                count = "whatever";
+                while (count != "null") {
+                    String js = "" + j;
+                    host = (String) params[0] + js;
+                    url = new URL(host);
+                    urlConnection = (HttpURLConnection) url.openConnection();
+                    if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                        Log.d("Connection réussi", "true");
+                        input = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                        builder = new StringBuilder();
+                        builder.append(input.readLine());
+
+                        jsonObject = new JSONObject(builder.toString());
+                        jArray = jsonObject.getJSONArray("results");
+                        for (int i = 0; i < jArray.length(); i++) {
+                            item = jArray.getJSONObject(i);
+                            name = item.getString(field);
+                            height = item.getString("height");
+                            mass = item.getString("mass");
+                            gender = item.getString("gender");
+                            birth_year = item.getString("birth_year");
+                            People people = new People(name, height, mass, gender, birth_year);
+                            ListPeople.add(people);
+                        }
+                        count = jsonObject.getString("next");
+                        input.close();
+                        urlConnection.disconnect();
+                    }
+                    j++;
+                }
             }
         }catch (Exception e){
             e.printStackTrace();
+        }
+        for (People people : ListPeople ){
+            ListResult.add(people.getName());
         }
         return ListResult;
     }
